@@ -2,41 +2,68 @@
 
 library(googlesheets4)
 library(forcats)
+library(dplyr)
+
+PRETEND_DATA <- TRUE
+
+#sheets_auth(
+#  email = gargle::gargle_oauth_email(),
+#  path = NULL,
+#  scopes = "https://www.googleapis.com/auth/spreadsheets",
+#  cache = gargle::gargle_oauth_cache(),
+#  use_oob = gargle::gargle_oob_default(),
+#  token = NULL
+#)
+
+#token <- gargle::token_fetch()
 
 # Load and Append Data ---------------------------------------------------------
 # Matatu characteristics. Liscence plate, psv sticker number, route, etc.
 matatu_details <- read_sheet("https://docs.google.com/spreadsheets/d/1IrOZ--nsNDYMiipUOeQjdiGY8oyF4MXaU39hXRA-444")
 
-feedback_df <- bind_rows(
-  read_sheet("https://docs.google.com/spreadsheets/d/1zdT9UQGBfw4GO0sgh_tmX7ODj7IfPBPDDM15ytxtM3k/edit#gid=225571172") %>%
-    mutate(licence_plate = "KCL 287P"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1s4ogLRQmex-EDokR08lkGMmG8U8ZaydD3uZzH1m3-i4/edit#gid=54770904") %>%
-    mutate(licence_plate = "KCN 592S"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1s9NlSZALlXZgDoX6tny0YQWlj5PEeKNWy47WfWMIjq8/edit#gid=1991415175") %>%
-    mutate(licence_plate = "KCX 025N"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1etKUdclDKurADv58lkNyXAwTsTgv2aJGLKPC4-HE4Q8/edit#gid=990515000") %>%
-    mutate(licence_plate = "KCX 259D"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1_OZk-CNTtv5s4KIglNw7-aVzs5KpCsAPem1x1ahdmZE/edit#gid=575564100") %>%
-    mutate(licence_plate = "KCP 863M"),
+if(PRETEND_DATA){
   
+  # General data
+  feedback_df <- bind_rows(
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCL 287P"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCN 592S"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCX 025N"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCX 025N"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCX 259D"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
+      mutate(licence_plate = "KCP 863M")) %>%
+    mutate(source = "qr_code")
+
   
-  # GENERAL
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCL 287P"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCN 592S"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCX 025N"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCX 025N"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCX 259D"),
-  read_sheet("https://docs.google.com/spreadsheets/d/1SIaFHrrUOXqsVtqzApN-u5wqd_7eOE7ZzswRf7mcH_s") %>%
-    mutate(licence_plate = "KCP 863M")
-) %>%
-  mutate(source = "qr_code")
+} else{
+  
+  # Data
+  feedback_df <- bind_rows(
+    read_sheet("https://docs.google.com/spreadsheets/d/1zdT9UQGBfw4GO0sgh_tmX7ODj7IfPBPDDM15ytxtM3k/edit#gid=225571172") %>%
+      mutate(licence_plate = "KCL 287P"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1s4ogLRQmex-EDokR08lkGMmG8U8ZaydD3uZzH1m3-i4/edit#gid=54770904") %>%
+      mutate(licence_plate = "KCN 592S"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1s9NlSZALlXZgDoX6tny0YQWlj5PEeKNWy47WfWMIjq8/edit#gid=1991415175") %>%
+      mutate(licence_plate = "KCX 025N"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1etKUdclDKurADv58lkNyXAwTsTgv2aJGLKPC4-HE4Q8/edit#gid=990515000") %>%
+      mutate(licence_plate = "KCX 259D"),
+    read_sheet("https://docs.google.com/spreadsheets/d/1_OZk-CNTtv5s4KIglNw7-aVzs5KpCsAPem1x1ahdmZE/edit#gid=575564100") %>%
+      mutate(licence_plate = "KCP 863M")
+
+  ) %>%
+    mutate(source = "qr_code")
+  
+}
 
 feedback_df <- merge(feedback_df, matatu_details, by = "licence_plate")
+
+# Restrict to after pilot began; anything before is testing survey
+#feedback_df <- feedback_df[feedback_df$Timestamp >= "2020-03-31",]
 
 # Clean variables --------------------------------------------------------------
 
